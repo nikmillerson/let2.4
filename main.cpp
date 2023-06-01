@@ -62,6 +62,9 @@ struct ListNode {
                 }
             }
         }
+        if (presult->val == 0){
+            presult->val = 9999;
+        }
         return result;
     }
 
@@ -70,9 +73,11 @@ struct ListNode {
 void ListPrint(ListNode *somelist) {
     std::cout << "[";
     while (somelist) {
-        std::cout << somelist->val;
+        if (somelist->val != 9999){
+            std::cout << somelist->val;
+        }
         somelist = somelist->next_;
-        if (somelist) {
+        if ((somelist) && (somelist->val != 9999)) {
             std::cout << ",";
         }
     }
