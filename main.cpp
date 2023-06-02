@@ -14,16 +14,19 @@ struct ListNode {
     friend ListNode add_two_linked_numbers(ListNode *l1, ListNode *l2) {
         ListNode result;
         ListNode *presult = &result;
+        ListNode *prev = nullptr;
         while (l1 && l2){
             if(presult->val + l1->val + l2->val < 10){
                 presult->val = presult->val + l1->val + l2->val;
                 presult->next_ = new ListNode;
+                prev = presult;
                 presult = presult->next_;
                 l1 = l1->next_;
                 l2 = l2->next_;
             }else{
                 presult->val = presult->val + l1->val + l2->val - 10;
                 presult->next_ = new ListNode;
+                prev = presult;
                 presult = presult->next_;
                 presult->val += 1;
                 l1 = l1->next_;
@@ -35,11 +38,13 @@ struct ListNode {
                     if(presult->val + l2->val < 10){
                         presult->val = presult->val + l2->val;
                         presult->next_ = new ListNode;
+                        prev = presult;
                         presult = presult->next_;
                         l2 = l2->next_;
                     }else{
                         presult->val = presult->val + l2->val - 10;
                         presult->next_ = new ListNode;
+                        prev = presult;
                         presult = presult->next_;
                         l2 = l2->next_;
                     }
@@ -50,11 +55,13 @@ struct ListNode {
                 while (l1){
                     if(presult->val + l1->val < 10){
                         presult->next_ = new ListNode;
+                        prev = presult;
                         presult = presult->next_;
                         l1 = l1->next_;
                     }else{
                         presult->val = presult->val + l1->val - 10;
                         presult->next_ = new ListNode;
+                        prev = presult;
                         presult = presult->next_;
                         presult->val += 1;
                         l1 = l1->next_;
@@ -63,7 +70,8 @@ struct ListNode {
             }
         }
         if (presult->val == 0){
-            presult->val = 9999;
+            prev->next_ = nullptr;
+            delete presult;
         }
         return result;
     }
@@ -73,11 +81,9 @@ struct ListNode {
 void ListPrint(ListNode *somelist) {
     std::cout << "[";
     while (somelist) {
-        if (somelist->val != 9999){
-            std::cout << somelist->val;
-        }
+        std::cout << somelist->val;
         somelist = somelist->next_;
-        if ((somelist) && (somelist->val != 9999)) {
+        if (somelist) {
             std::cout << ",";
         }
     }
